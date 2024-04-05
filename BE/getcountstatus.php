@@ -1,12 +1,6 @@
 <?php
 $mysqli = new mysqli("pbx.uidesk.id","root","Uid35k32!Uid35k32!J4y4","qstats");
-/*
 
-user : root
-pass : zimam@0306!!
-user : uidesk
-pass : Uidesk123!
-*/
 // Check connection
 if ($mysqli -> connect_errno) {
   echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
@@ -24,7 +18,9 @@ select 'CallAnswered' TypeNya,COUNT(*) as ValNya from asteriskcdrdb.cdr where DA
 Union
 select 'CallAbandoned' TypeNya,COUNT(*) as ValNya from asteriskcdrdb.cdr where DATE_FORMAT(calldate, '%Y-%m-%d') = CURDATE()  and (disposition='NO ANSWER' or disposition='BUSY') 
 ) as a");*/
-$result = $mysqli -> query("select agent,SUM(talktime) as talktime from queue_stats_mv  where DATE_FORMAT(datetime, '%Y-%m-%d') = CURDATE() order by datetime desc LIMIT 0,5;");
+
+$sqlNya="select agent as AgentName,COUNT(id) as IncomingCall,0 as OutgoingCall,SEC_TO_TIME(SUM(waittime)) as WaitingTime,SEC_TO_TIME(SUM(talktime)) as TalkingTime,'Ready' as StatusAgent from queue_stats_mv where DATE(datetime)=DATE(NOW()) group by agent order by id desc;";
+$result = $mysqli -> query($sqlNya);
 
 $data = [];
 while ($row = $result->fetch_assoc()) {

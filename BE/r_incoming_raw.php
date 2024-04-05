@@ -4,7 +4,7 @@ ini_set("error_reporting", E_ALL);
 // Report all errors except E_NOTICE
 error_reporting(E_ALL & ~E_NOTICE);
 date_default_timezone_set('GMT');
-$mysqli = new mysqli("206.237.98.116","root","Uid35k32!Uid35k32!J4y4","asteriskcdrdb");
+$mysqli = new mysqli("pbx.uidesk.id","root","Uid35k32!Uid35k32!J4y4","asteriskcdrdb");
 /*
 
 user : root
@@ -18,14 +18,16 @@ if ($mysqli -> connect_errno) {
   exit();
 }
 
+
+
+
 $chanfield      = "dstchannel";
     $otherchanfield = "channel";
  
     $query = "SELECT substring($chanfield,1,locate(\"-\",$chanfield,length($chanfield)-8)-1) AS chan1,";
     $query.= "billsec,duration,duration-billsec as ringtime,src,dst,calldate,disposition,accountcode FROM asteriskcdrdb.cdr ";
-    $query.= "WHERE DATE_FORMAT(calldate, '%Y-%m-%d') = '2024-03-27' AND (duration-billsec) >=0  ";
-    $query.= "HAVING chan1 in ('SIP/10010','SIP/10011','SIP/10012','SIP/10013','SIP/10014','SIP/10015','SIP/10016',
-    'SIP/10017','SIP/10018','SIP/10019','SIP/10020','SIP/10021','SIP/10022','SIP/10023','SIP/10024','SIP/10025','SIP/10026','SIP/10027','SIP/10028','SIP/10029') order by null";
+    $query.= "WHERE DATE_FORMAT(calldate, '%Y-%m-%d') = '2024-04-01' AND (duration-billsec) >=0  ";
+    $query.= "HAVING chan1 in ('SIP/201010','SIP/201011','SIP/201012','SIP/201013','SIP/201014','SIP/101010','SIP/101011','SIP/101012','SIP/101013')  order by null";
     //echo $query;
     $result = $mysqli -> query($query);
 
@@ -48,6 +50,7 @@ $chanfield      = "dstchannel";
             $ringing_inbound[$row['accountcode']][$row['chan1']]      = 0;
             $ringing[$row['accountcode']][$row['chan1']]      = 0;
             $number_calls_inbound[$row['accountcode']][$row['chan1']] = 0;
+            $number_calls_outbound[$row['accountcode']][$row['chan1']] = 0;
             $missed_inbound[$row['accountcode']][$row['chan1']]       = 0;
         }
 

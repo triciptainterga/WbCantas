@@ -4,7 +4,7 @@ ini_set("error_reporting", E_ALL);
 // Report all errors except E_NOTICE
 error_reporting(E_ALL & ~E_NOTICE);
 date_default_timezone_set('GMT');
-$mysqli = new mysqli("206.237.98.116","root","Uid35k32!Uid35k32!J4y4","asteriskcdrdb");
+$mysqli = new mysqli("pbx.uidesk.id","root","Uid35k32!Uid35k32!J4y4","asteriskcdrdb");
 /*
 
 user : root

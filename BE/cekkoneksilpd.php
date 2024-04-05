@@ -1,5 +1,5 @@
 <?php
-$mysqli = new mysqli("pbx.uidesk.id","root","Uid35k32!Uid35k32!J4y4","qstats");
+$mysqli = new mysqli("202.43.173.61","root","Uid35k32!Uid35k32!J4y4","asteriskcdrdb");
 /*
 
 user : root
@@ -24,7 +24,10 @@ select 'CallAnswered' TypeNya,COUNT(*) as ValNya from asteriskcdrdb.cdr where DA
 Union
 select 'CallAbandoned' TypeNya,COUNT(*) as ValNya from asteriskcdrdb.cdr where DATE_FORMAT(calldate, '%Y-%m-%d') = CURDATE()  and (disposition='NO ANSWER' or disposition='BUSY') 
 ) as a");*/
-$result = $mysqli -> query("select agent,SUM(talktime) as talktime from queue_stats_mv  where DATE_FORMAT(datetime, '%Y-%m-%d') = CURDATE() order by datetime desc LIMIT 0,5;");
+$result = $mysqli -> query("select 'Outbound' as TypeNya,COUNT(*) as Jumlah from(
+    SELECT substring(channel,1,locate('-',channel,1)-1) AS chan1
+    FROM asteriskcdrdb.cdr WHERE  substring(channel,1,locate('-',channel,1)-1)<>'' 
+    AND DATE(calldate)=CURDATE() AND (duration-billsec) >=0;");
 
 $data = [];
 while ($row = $result->fetch_assoc()) {
